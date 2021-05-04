@@ -170,3 +170,19 @@ header.masthead .bg-circle-4 {
 .missao {
     text-align: justify;
 }
+
+.selectItem {
+    width: 70%;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.labelItem {
+    width: 28%;
+    padding: 3px;
+}
+
+.btn_remove {
+    font-size: 12px;
+    margin-top: 11%;
+}

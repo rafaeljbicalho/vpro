@@ -103,6 +103,65 @@
         </div>
     </section>
 
+    <!-- Doação -->
+    <section>
+        <div class="container">
+            <div class="missao p-5">
+                <h2 class="display-4">Faça sua doação</h2>
+                <table class="table" id="dynamic_field">
+                    <thead>
+                        <tr>
+                            <td>
+                                <label class="input-group-text labelItem" for="inputGroupSelect01">Item</label>
+                                <select class="form-select selectItem" id="inputGroupSelect01">
+                                <option selected>Escolha...</option>
+                                <option value="1">Arroz</option>
+                                <option value="2">Feijão</option>
+                                <option value="3">Sal</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label>
+                                <select class="form-select selectItem" id="inputGroupSelect01">
+                                <option selected>Escolha...</option>
+                                <option value="1">KG</option>
+                                <option value="2">Qtd</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label>
+                                <select class="form-select selectItem" id="inputGroupSelect01">
+                                <option selected>Escolha...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                </select>
+                            </td>
+
+
+                        </tr>
+
+                        <tbody>
+
+                </table>
+
+
+
+                <!-- adicionar mais itens -->
+                <button type="button" name="add" id="add" class="btn btn-outline-success" style="margin-left: 0%;border-radius: 19px;font-size: 13px;">Adicionar mais item</button>
+
+
+                <!-- Enviar doação -->
+                <div>
+                    <button type="submit" name="enviarDoacao" class="btn btn-outline-primary" style="margin-left: 0%;border-radius: 19px;margin-top: 3%;font-size: 13px;">Enviar doação</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- Footer -->
@@ -116,6 +175,21 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- script to add and remove new rows -->
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $('#add').click(function() {
+                i++;
+                $('#dynamic_field').append('<tr id="row' + i + '"><td><label class="input-group-text labelItem" for="inputGroupSelect01">Item</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">Arroz</option><option value="2">Feijão</option><option value="3">Sal</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">KG</option><option value="2">Qtd</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
+            });
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                $('#row' + button_id + '').remove();
+            });
+        });
+    </script>
 
 </body>
 
