@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +35,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cadastre-se</a>
+                        <a class="nav-link" href="?#doacao">Faça sua doação</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Faça login</a>
@@ -49,7 +50,7 @@
             <div class="container">
                 <h1 class="masthead-heading mb-0">Unisal</h1>
                 <h2 class="masthead-subheading mb-0">ADS - VPRO</h2>
-                <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Saiba mais</a>
+                <a href="?#sobre" class="btn btn-primary btn-xl rounded-pill mt-5">Saiba mais</a>
             </div>
         </div>
         <div class="bg-circle-1 bg-circle"></div>
@@ -57,6 +58,37 @@
         <div class="bg-circle-3 bg-circle"></div>
         <div class="bg-circle-4 bg-circle"></div>
     </header>
+
+    <?php
+
+    // lets check doacao
+    if (isset($_POST['enviarDoacao'])) {
+
+        $nome       = $_POST['nome'];
+        $email      = $_POST['email'];
+        $alimento   = $_POST['alimento'];
+        $tipo       = $_POST['tipo'];
+        $quantidade = $_POST['qtd'];
+
+        echo "Nome: " . $nome . " e email: " .$email . "<br>";
+
+        for($i = 0; $i < count($alimento); $i++) {
+            echo "alimento: " . $alimento[$i] . " tipo: " . $tipo[$i] . " quantidade: " . $quantidade[$i]."<br>";
+            $cadastrarProduto = $crud->cadastrarProdutos($nome, $email, $telefone, $alimento, $tipo, $quantidade);
+        }
+
+    }
+
+    include "dbconfig.php";
+
+    $isRelatorio = true;
+
+    // select produtos
+    $produtosArray = $crud->select("SELECT * FROM Produto");
+
+    var_dump($produtosArray);
+
+    ?>
 
     <section>
         <div class="container">
@@ -66,7 +98,7 @@
                         <img class="img-fluid rounded-circle" src="img/volunteer.jpg" alt="">
                     </div>
                 </div>
-                <div class="col-lg-6 order-lg-1">
+                <div class="col-lg-6 order-lg-1" id="sobre">
                     <div class="missao p-5">
                         <h2 class="display-4">Missão</h2>
                         Com a desigualdade social e as dificuldades de muitas famílias no mundo todo, foi desenvolvida a Sociedade de São Vicente de Paulo com objetivo de aliviar o sofrimento de pessoas vulneráveis, de modo que ajudasse também a fortalecer a fé de seus membros.
@@ -106,40 +138,59 @@
     <!-- Doação -->
     <section>
         <div class="container">
-            <div class="missao p-5">
+            <div class="missao p-5" id="doacao">
                 <h2 class="display-4">Faça sua doação</h2>
+                <form method="POST">
                 <table class="table" id="dynamic_field">
                     <thead>
                         <tr>
                             <td>
-                                <label class="input-group-text labelItem" for="inputGroupSelect01">Item</label>
-                                <select class="form-select selectItem" id="inputGroupSelect01">
-                                <option selected>Escolha...</option>
-                                <option value="1">Arroz</option>
-                                <option value="2">Feijão</option>
-                                <option value="3">Sal</option>
-                                </select>
+                                <input type="text" class="form-control" name="nome" placeholder="Digite seu nome" required>
+                            </td>
+                            <td>
+                                <input type="email" class="form-control" name="email" placeholder="Digite seu email" required>
+                            </td>
+                            <td>
+                                <input type="telefone" class="form-control" id="telefone" name="telefone" placeholder="Digite seu telefone" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                            <td>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Selecione o produto</label>
+                                    <select class="form-control" id="exampleFormControlSelect1"  name="alimento[]" required>
+                                    <option selected>Escolha...</option>
+                                    <option value="arroz">Arroz</option>
+                                    <option value="feijão">Feijão</option>
+                                    <option value="sal">Sal</option>
+                                    </select>
+                                </div>
                             </td>
 
                             <td>
-                                <label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label>
-                                <select class="form-select selectItem" id="inputGroupSelect01">
-                                <option selected>Escolha...</option>
-                                <option value="1">KG</option>
-                                <option value="2">Qtd</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Selecione o tipo</label>
+                                    <select class="form-control" id="exampleFormControlSelect1"  name="tipo[]" required>
+                                    <option selected>Escolha...</option>
+                                    <option value="KG">Kg</option>
+                                    <option value="Qtd">Qtd</option>
+                                    </select>
+                                </div>
                             </td>
 
                             <td>
-                                <label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label>
-                                <select class="form-select selectItem" id="inputGroupSelect01">
-                                <option selected>Escolha...</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Selecione a quantidade</label>
+                                    <select class="form-control" id="exampleFormControlSelect1"  name="qtd[]" required>
+                                    <option selected>Escolha...</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
 
@@ -154,6 +205,7 @@
                 <div>
                     <button type="submit" name="enviarDoacao" class="btn btn-outline-primary" style="margin-left: 0%;border-radius: 19px;margin-top: 3%;font-size: 13px;">Enviar doação</button>
                 </div>
+                </form>
             </div>
         </div>
     </section>
@@ -177,13 +229,24 @@
             var i = 1;
             $('#add').click(function() {
                 i++;
-                $('#dynamic_field').append('<tr id="row' + i + '"><td><label class="input-group-text labelItem" for="inputGroupSelect01">Item</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">Arroz</option><option value="2">Feijão</option><option value="3">Sal</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">KG</option><option value="2">Qtd</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label><select class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
+                $('#dynamic_field').append('<tr id="row' + i + '"><td><label class="input-group-text labelItem" for="inputGroupSelect01">Item</label><select name="alimento[]"class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="arroz">Arroz</option><option value="feijão">Feijão</option><option value="sal">Sal</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label><select class="form-select selectItem" id="inputGroupSelect01" name="tipo[]"><option selected>Escolha...</option><option value="KG">KG</option><option value="Qtd">Qtd</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label><select class="form-select selectItem" id="inputGroupSelect01" name="qtd[]"><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
             });
             $(document).on('click', '.btn_remove', function() {
                 var button_id = $(this).attr("id");
                 $('#row' + button_id + '').remove();
             });
         });
+    </script>
+
+    <!-- mask -->
+    <script src="js/mask.js"></script>
+    <script src="js/mask_2.js"></script>
+
+    <!-- mask telefone -->
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#telefone").mask("(99)99999-9999");
+    });
     </script>
 
 </body>
