@@ -9,57 +9,47 @@ class crud
 		$this->db = $DB_con;
 	}
 	
-    public function cadastrarProdutos($nome,$email,$dataNascimento,$cpf,$celular,$cep,$endereco,$numero,
-                        $bairro,$cidade,$estado,$qtdPessoas,$empregado,$sobre,$criadoEm)
-	{	
-		// vamos verificar primeiro se já existe um cadastro com os dados enviados (cpf, email ou celular)
-		$query = $this->db->prepare('SELECT * FROM Cadastro WHERE CPF = :CPF OR Email =:Email OR Celular =:Celular ');
-		//$cpf = filter_input(INPUT_GET, 'cpf', FILTER_SANITIZE_NUMBER_INT); // <-- filter your data first (see [Data Filtering](#data_filtering)), especially important for INSERT, UPDATE, etc.
-		$query->bindParam(':CPF', $cpf, PDO::PARAM_INT); // <-- Automatically sanitized for SQL by PDO
-		$query->bindParam(':Email', $email, PDO::PARAM_INT); // <-- Automatically sanitized for SQL by PDO
-		$query->bindParam(':Celular', $celular, PDO::PARAM_INT); // <-- Automatically sanitized for SQL by PDO
-		$query->execute();
-		$checkUser = $query->fetchAll(PDO::FETCH_ASSOC);
+    public function cadastrarProdutos($nome, $email, $telefone, $alimento, $tipo, $quantidade, $texto) {	
 
-		if (isset($checkUser) && empty($checkUser)) {
-
-			try
-			{
-				$query = $this->db->prepare("INSERT INTO Cadastro(Nome,Email,DataNascimento,CPF,Celular,CEP,Endereco,Numero,Bairro,Cidade,Estado,QtdPessoas,Empregado,Sobre,CriadoEm) 
-				VALUES(:Nome, :Email, :DataNascimento, :CPF,:Celular,:CEP,:Endereco,:Numero,:Bairro,:Cidade,:Estado,:QtdPessoas,:Empregado,:Sobre,:CriadoEm)");
-				$query->bindparam(":Nome",$nome);
-				$query->bindparam(":Email",$email);
-				$query->bindparam(":DataNascimento",$dataNascimento);
-				$query->bindparam(":CPF",$cpf);
-				$query->bindparam(":Celular",$celular);
-				$query->bindparam(":CEP",$cep);
-				$query->bindparam(":Endereco",$endereco);
-				$query->bindparam(":Numero",$numero);
-				$query->bindparam(":Bairro",$bairro);
-				$query->bindparam(":Cidade",$cidade);
-				$query->bindparam(":Estado",$estado);
-				$query->bindparam(":QtdPessoas",$qtdPessoas);
-				$query->bindparam(":Empregado",$empregado);
-				$query->bindparam(":Sobre",$sobre);
-				$query->bindparam(":CriadoEm",$criadoEm);
-				$query->execute();
-				$result = 'Usuário (' .$email. ') cadastrado com sucesso';
-				return $result;
-			}
-			catch(PDOException $e)
-			{
-				echo $e->getMessage();	
-				$result = 'Não foi possível adicionar (' .$email. '), tente novamente';
-				return $result;
-			}
-
-		} else if (isset($checkUser) && !empty($checkUser)) {
-
-			$result = 'Existe um cadastro com os dados inseridos';
+		try
+		{
+			$query = $this->db->prepare("INSERT INTO Produto(Nome, Email,  Telefone,  Item,  Tipo,  Qtd,  CriadoEm, Mensagem) 
+			VALUES(:Nome, :Email, :Telefone, :Item, :Tipo, :Qtd, :CriadoEm, :Mensagem)");
+			$query->bindparam(":Nome",     $nome);
+			$query->bindparam(":Email",    $email);
+			$query->bindparam(":Telefone", $telefone);
+			$query->bindparam(":Item",     $alimento);
+			$query->bindparam(":Tipo",     $tipo);
+			$query->bindparam(":Qtd",      $quantidade);
+			$query->bindparam(":CriadoEm", date("Y-m-d H:i:s"));
+			$query->bindparam(":Mensagem", $texto);
+			$query->execute();
+			//echo "\nPDOStatement::errorInfo():\n";
+			//$arr = $query->errorInfo();
+			//print_r($arr);
+			echo $result = 'Usuário (' .$email. ') cadastrado com sucesso';
 			return $result;
-
+			
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();	
+			echo $result = 'Não foi possível adicionar (' .$email. '), tente novamente';
+			return $result;
 		}
     }
+
+	// Aprovar doação
+	public function aprovar_doacao($aprovarId) {
+
+		echo "got here with id: " .$aprovarId;
+
+		$query = $this->db->prepare("UPDATE Produto SET Aprovado = 1 WHERE ProdutoId =:ProdutoId");
+		$query->bindparam(":ProdutoId", $aprovarId);
+		$query->execute();
+		echo $result = 'Atualizado aprovação com sucesso';
+		return $result;
+	}
 
     public function select($sqlCommando)
 	{
@@ -76,6 +66,8 @@ class crud
 		$loginArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $loginArray;
 	}
+
+	
 
 }
     
