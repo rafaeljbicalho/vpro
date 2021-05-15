@@ -61,6 +61,7 @@ class crud
 		return $result;
 	}
 
+
     public function select($sqlCommando)
 	{
 		$stmt = $this->db->prepare($sqlCommando);

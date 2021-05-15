@@ -2,8 +2,6 @@
 
     include "dbconfig.php";
 
-    var_dump($_POST);
-
     // lets check doacao
     if (isset($_POST['enviarDoacao']) && !empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['telefone'])) { 
 
@@ -16,11 +14,13 @@
         $texto      = $_POST['texto'];
         $alimento   = $_POST['alimento'];
         $descricao  = $_POST['descricao'];
+
         $quantidade = $_POST['qtd'];
 
 
         for($i = 0; $i < count($alimento); $i++) {
             $cadastrarProduto = $crud->cadastrarProdutos($nome, $email, $finalCelular, $alimento[$i], $descricao[$i], $quantidade[$i], $texto);
+
         }
 
     }
@@ -237,6 +237,7 @@
             $('#add').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row'+i+'"><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione o produto</label><select class="form-control" id="exampleFormControlSelect1"  name="alimento[]" required><option selected>Escolha...</option><option value="arroz">Arroz</option><option value="feijão">Feijão</option><option value="sal">Sal</option><option value="oleo">Óleo</option><option value="leite">Leite</option></select></div></td><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione a quantidade</label><select class="form-control" id="exampleFormControlSelect1"  name="qtd[]" required><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></td><td><div class="form-group"><label for="descricao">Descrição</label><input id="descricao" maxlength ="50" placeholder="Descreva o produto" class="form-control" name="descricao[]"></input></div></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
+
             });
             $(document).click('.btn_remove', function() {
                 var button_id = $(this).attr("id");

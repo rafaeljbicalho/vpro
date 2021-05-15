@@ -33,6 +33,7 @@ if (isset($_POST['aprovar']) && !empty($_POST['aprovar'])) {
 
     $aprovarDoacao = $crud->aprovar_doacao($aprovarId, $qtdAprovar, $itemAprovar);
 
+
 }
 
 // select produtos
@@ -42,6 +43,7 @@ $doacaoArray = $crud->select("SELECT * FROM Doacao WHERE (aprovado = 0 OR aprova
 $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1");
 
 //var_dump($doacaosArray);
+
 
 ?>
 
@@ -86,6 +88,7 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                         <a class="nav-link" href="estoque.php">Estoque VPRO</a>
                     </li>
                     <li class="nav-item">
+
                         <a class="nav-link" href="#">Faça login</a>
                     </li>
                 </ul>
@@ -159,7 +162,7 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                     </thead>
                     <tbody>
                     <?php
-                        
+
                         foreach($doacaoAprovadosArray as $doacao) : 
                     
                         ?>
@@ -175,6 +178,7 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                             <td><?= $doacao['DescricaoItem'];  ?></td>
                             <td><?= $doacao['Qtd'];   ?></td>
                             <td><?= ($doacao['Aprovado'] == 1 ) ? '<span class="badge bg-success">Aprovado</span>' : 'Aprovado'; ?></td>
+
                         </tr>
                     <?php endforeach ?>
                 </tbody>
