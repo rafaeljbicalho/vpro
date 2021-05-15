@@ -184,5 +184,18 @@ header.masthead .bg-circle-4 {
 
 .btn_remove {
     font-size: 12px;
-    margin-top: 11%;
+    margin-top: 60%;
+}
+
+.aprovar {
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+th, td {
+    text-align: center;
+}
+
+.bg-success {
+    background-color: #b0ffc2!important;
 }

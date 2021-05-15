@@ -1,9 +1,9 @@
 <?php
 
-$DB_host = "ip";
+$DB_host = "localhost";
 $DB_user = "user";
-$DB_pass = "pwd";
-$DB_name = "db";
+$DB_pass = "passw@";
+$DB_name = "projeto";
 
 
 try

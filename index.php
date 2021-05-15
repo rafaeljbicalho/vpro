@@ -1,3 +1,31 @@
+<?php
+
+    include "dbconfig.php";
+
+    var_dump($_POST);
+
+    // lets check doacao
+    if (isset($_POST['enviarDoacao']) && !empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['telefone'])) { 
+
+        $nome       = $_POST['nome'];
+        $email      = $_POST['email'];
+        $telefone   = $_POST['telefone'];
+        $celular      = str_replace("(", "", $_POST['telefone']);
+        $celular2     = str_replace(")", "", $celular);
+        $finalCelular = str_replace("-", "", $celular2);
+        $texto      = $_POST['texto'];
+        $alimento   = $_POST['alimento'];
+        $descricao  = $_POST['descricao'];
+        $quantidade = $_POST['qtd'];
+
+
+        for($i = 0; $i < count($alimento); $i++) {
+            $cadastrarProduto = $crud->cadastrarProdutos($nome, $email, $finalCelular, $alimento[$i], $descricao[$i], $quantidade[$i], $texto);
+        }
+
+    }
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +37,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>vpro | unisal ads</title>
+    <title>vpro | página inicial</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +56,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">VPRO</a>
+            <a class="navbar-brand" href="#">VPRO | Bem-vindo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -59,36 +87,7 @@
         <div class="bg-circle-4 bg-circle"></div>
     </header>
 
-    <?php
 
-    // lets check doacao
-    if (isset($_POST['enviarDoacao'])) {
-
-        $nome       = $_POST['nome'];
-        $email      = $_POST['email'];
-        $alimento   = $_POST['alimento'];
-        $tipo       = $_POST['tipo'];
-        $quantidade = $_POST['qtd'];
-
-        echo "Nome: " . $nome . " e email: " .$email . "<br>";
-
-        for($i = 0; $i < count($alimento); $i++) {
-            echo "alimento: " . $alimento[$i] . " tipo: " . $tipo[$i] . " quantidade: " . $quantidade[$i]."<br>";
-            $cadastrarProduto = $crud->cadastrarProdutos($nome, $email, $telefone, $alimento, $tipo, $quantidade);
-        }
-
-    }
-
-    include "dbconfig.php";
-
-    $isRelatorio = true;
-
-    // select produtos
-    $produtosArray = $crud->select("SELECT * FROM Produto");
-
-    var_dump($produtosArray);
-
-    ?>
 
     <section>
         <div class="container">
@@ -143,6 +142,7 @@
                 <form method="POST">
                 <table class="table" id="dynamic_field">
                     <thead>
+                        <!-- nome, email e telefone -->
                         <tr>
                             <td>
                                 <input type="text" class="form-control" name="nome" placeholder="Digite seu nome" required>
@@ -154,8 +154,15 @@
                                 <input type="telefone" class="form-control" id="telefone" name="telefone" placeholder="Digite seu telefone" required>
                             </td>
                         </tr>
+                        <!-- texto -->
                         <tr>
-                            
+                            <td colspan="3">
+                                <textarea maxlength ="250" placeholder="Envie sua mensagem (máximo de 250 caracteres)" class="form-control" name="texto" rows="4" cols="50"></textarea>
+                            </td>
+                        </tr>
+                        <!-- opções -->
+                        <tr>
+                            <!-- Produto -->
                             <td>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Selecione o produto</label>
@@ -164,21 +171,13 @@
                                     <option value="arroz">Arroz</option>
                                     <option value="feijão">Feijão</option>
                                     <option value="sal">Sal</option>
+                                    <option value="oleo">Óleo</option>
+                                    <option value="leite">Leite</option>
                                     </select>
                                 </div>
                             </td>
-
-                            <td>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Selecione o tipo</label>
-                                    <select class="form-control" id="exampleFormControlSelect1"  name="tipo[]" required>
-                                    <option selected>Escolha...</option>
-                                    <option value="KG">Kg</option>
-                                    <option value="Qtd">Qtd</option>
-                                    </select>
-                                </div>
-                            </td>
-
+                            
+                            <!-- Quantidade -->
                             <td>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Selecione a quantidade</label>
@@ -190,6 +189,14 @@
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     </select>
+                                </div>
+                            </td>
+
+                            <!-- Descrição -->
+                            <td>
+                                <div class="form-group">
+                                    <label for="descricao">Descrição</label>
+                                    <input id="descricao" maxlength ="50" placeholder="Descreva o produto" class="form-control" name="descricao[]"></input>
                                 </div>
                             </td>
                         </tr>
@@ -229,16 +236,20 @@
             var i = 1;
             $('#add').click(function() {
                 i++;
-                $('#dynamic_field').append('<tr id="row' + i + '"><td><label class="input-group-text labelItem" for="inputGroupSelect01">Item</label><select name="alimento[]"class="form-select selectItem" id="inputGroupSelect01"><option selected>Escolha...</option><option value="arroz">Arroz</option><option value="feijão">Feijão</option><option value="sal">Sal</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Tipo</label><select class="form-select selectItem" id="inputGroupSelect01" name="tipo[]"><option selected>Escolha...</option><option value="KG">KG</option><option value="Qtd">Qtd</option></select></td><td><label class="input-group-text labelItem" for="inputGroupSelect01">Qtd</label><select class="form-select selectItem" id="inputGroupSelect01" name="qtd[]"><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
+                $('#dynamic_field').append('<tr id="row'+i+'"><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione o produto</label><select class="form-control" id="exampleFormControlSelect1"  name="alimento[]" required><option selected>Escolha...</option><option value="arroz">Arroz</option><option value="feijão">Feijão</option><option value="sal">Sal</option><option value="oleo">Óleo</option><option value="leite">Leite</option></select></div></td><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione a quantidade</label><select class="form-control" id="exampleFormControlSelect1"  name="qtd[]" required><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></td><td><div class="form-group"><label for="descricao">Descrição</label><input id="descricao" maxlength ="50" placeholder="Descreva o produto" class="form-control" name="descricao[]"></input></div></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
             });
-            $(document).on('click', '.btn_remove', function() {
+            $(document).click('.btn_remove', function() {
                 var button_id = $(this).attr("id");
-                $('#row' + button_id + '').remove();
+                $('#row'+button_id+'').remove();
             });
         });
     </script>
 
     <!-- mask -->
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/mask.js"></script>
     <script src="js/mask_2.js"></script>
 
