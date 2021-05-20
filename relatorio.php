@@ -1,6 +1,5 @@
 <?php
 
-
 // Always start this first
 session_start();
 
@@ -63,6 +62,7 @@ if (isset($_POST['aprovar']) && !empty($_POST['aprovar'])) {
     $aprovarId = $_POST['aprovar'];
 
     $aprovarDoacao = $crud->aprovar_doacao($aprovarId, $qtdAprovar, $itemAprovar);
+
 
 }
 
@@ -127,14 +127,11 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                             <a class="nav-link" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Acesso restrito</a>
                         </li>
                     <?php } ?>
+
                 </ul>
             </div>
         </div>
     </nav>
-
-    <?php
-
-    if (isset($_SESSION['user']) && !empty($_SESSION['user'])) { ?>
 
     <section style="margin-top: 5%;">
         <div class="container">
@@ -202,7 +199,6 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                     </thead>
                     <tbody>
                     <?php
-                        
                         foreach($doacaoAprovadosArray as $doacao) : 
                     
                         ?>
@@ -218,6 +214,7 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
                             <td><?= $doacao['DescricaoItem'];  ?></td>
                             <td><?= $doacao['Qtd'];   ?></td>
                             <td><?= ($doacao['Aprovado'] == 1 ) ? '<span class="badge bg-success">Aprovado</span>' : 'Aprovado'; ?></td>
+
                         </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -232,9 +229,6 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
         </div>
         <!-- /.container -->
     </footer>
-
-    <?php } ?>
-
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -268,9 +262,7 @@ $doacaoAprovadosArray = $crud->select("SELECT * FROM Doacao WHERE aprovado = 1")
     $(document).ready(function(){
         $("#telefone").mask("(99)99999-9999");
     });
-    </script>
-
-    
+    </script>    
 
     <?php
     // modal

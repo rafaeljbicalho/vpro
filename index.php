@@ -53,6 +53,7 @@ if(isset($_POST['logout']) && !empty($_POST['logout'])) {
     header('Location: index.php');
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +94,6 @@ if(isset($_POST['logout']) && !empty($_POST['logout'])) {
             <?php } else { ?>
                 <a class="navbar-brand" href="#">VPRO | Bem-vindo</a>
             <?php } ?>
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
       </button>
@@ -303,6 +303,10 @@ if(isset($_POST['logout']) && !empty($_POST['logout'])) {
             $('#add').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row'+i+'"><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione o produto</label><select class="form-control" id="exampleFormControlSelect1"  name="alimento[]" required><option selected>Escolha...</option><option value="arroz">Arroz</option><option value="feijão">Feijão</option><option value="sal">Sal</option><option value="oleo">Óleo</option><option value="leite">Leite</option></select></div></td><td><div class="form-group"><label for="exampleFormControlSelect1">Selecione a quantidade</label><select class="form-control" id="exampleFormControlSelect1"  name="qtd[]" required><option selected>Escolha...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></td><td><div class="form-group"><label for="descricao">Descrição</label><input id="descricao" maxlength ="50" placeholder="Descreva o produto" class="form-control" name="descricao[]"></input></div></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-outline-danger btn_remove">X</button></td></tr>')
+<<<<<<< HEAD
+=======
+
+>>>>>>> a93fa4127d6baeca1a9690c7253dfd0bf969076d
             });
             $(document).click('.btn_remove', function() {
                 var button_id = $(this).attr("id");

@@ -28,11 +28,13 @@ class crud
 			//$arr = $query->errorInfo();
 			//print_r($arr);
 			$result = true;
+
 			return $result;
 			
 		}
 		catch(PDOException $e)
 		{
+
 			$e->getMessage();	
 			$result = false;
 			return $result;
@@ -52,6 +54,7 @@ class crud
 		$query = $this->db->prepare("UPDATE Estoque SET Qtd = (SELECT Qtd FROM Estoque WHERE Item = '$itemAprovar') + $qtdAprovar WHERE Item =:Item");
 		$query->bindparam(":Item", $itemAprovar);
 		$query->execute();
+
 
 		// echo "\nPDOStatement::errorInfo():\n";
 		// $arr = $query->errorInfo();

@@ -32,6 +32,8 @@ if (isset($_POST['fazerLogin']) && !empty($_POST['loginEmail']) && !empty($_POST
     }
 }
 
+include "dbconfig.php";
+
 // mask número celular
 function masc_tel($TEL) {
 $tam = strlen(preg_replace("/[^0-9]/", "", $TEL));
@@ -82,6 +84,7 @@ $estoqueArray = $crud->select("SELECT * FROM Estoque");
     <meta name="author" content="Rafael Bicalho">
 
     <title>vpro | estoque</title>
+    <meta name="author" content="">
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
