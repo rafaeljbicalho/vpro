@@ -1,0 +1,15 @@
+CREATE TABLE projeto.dbo.Doacao (
+	DoacaoId int IDENTITY(1,1) NOT NULL,
+	Nome varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Email varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Telefone varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Item varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	DescricaoItem varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Qtd varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CriadoEm datetime NULL,
+	Aprovado bit NULL,
+	AprovadoEm datetime NULL,
+	AprovadoPor varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	Mensagem varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	CONSTRAINT PK__Produto__9C8800E3292FFD8D PRIMARY KEY (DoacaoId)
+);
